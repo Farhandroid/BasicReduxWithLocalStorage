@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import UserComponent from "./component/userComponent";
+import React from "react";
+import { connect } from "react-redux";
+import { setCurrentUser } from "./redux/user/userAction";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  handleChange = (event) => {
+    console.log(event.target.value);
+    this.props.setCurrentUser(event.target.value);
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <label>
+          Name:
+          <input type="text" name="name" onChange={this.handleChange} />
+        </label>
+        <button onClick={() => this.handleChange}>Click</button>
+        <UserComponent />
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(null, mapDispatchToProps)(App);
